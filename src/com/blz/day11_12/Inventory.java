@@ -1,45 +1,138 @@
 package com.blz.day11_12;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Scanner;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+ class Bank {
+    private String accountnum;
+    private String name;
+    private long balance;
 
-public class Inventory {
-	public static void main(String[] args) throws IOException, ParseException {
+    Scanner sc = new Scanner(System.in);
 
-		JSONParser jsonparser = new JSONParser();
 
-		FileReader reader = new FileReader(".\\Data\\inventory.json");
+    void openAccount() {
+        System.out.print("Enter Account No: ");
+        accountnum = sc.next();
+        System.out.print("Enter Name: ");
+        name = sc.next();
+        System.out.print("Enter Balance: ");
+        balance = sc.nextLong();
 
-		Object obj = jsonparser.parse(reader);
+    }
 
-		JSONObject invjsonobj = (JSONObject) obj;
 
-		JSONArray array = (JSONArray) invjsonobj.get("Itemlist");
+    void showAccount() {
+        System.out.println(accountnum + "," + name + ","+ balance);
+    }
 
-		for (int i = 0; i < array.size(); i++) {
 
-			JSONObject Itemlist = (JSONObject) array.get(i);
+    void deposit() {
+        long amt;
+        System.out.println("Enter Amount You Want to Deposit : ");
+        amt = sc.nextLong();
+        balance = balance + amt;
+    }
 
-			String item_Name = (String) Itemlist.get("item_Name");
-			double weight = (double) Itemlist.get("weight");
-			double price = (double) Itemlist.get("price");
 
-			System.out.println("Itemlist of ....." + i + " is.. ");
-			System.out.println("Item name: " + item_Name);
-			System.out.println("weight: " + weight + " kg");
-			System.out.println("price: " + price + " Rs/kg");
+    void withdrawal() {
+        long amt;
+        System.out.println("Enter Amount You Want to withdraw : ");
+        amt = sc.nextLong();
+        if (balance >= amt) {
+            balance = balance - amt;
+        } else {
+            System.out.println("Less Balance..Transaction Failed..");
+        }
+    }
 
-			double totalAmount = 0;
-			double amount = weight * price;
-			totalAmount = amount + totalAmount;
-			System.out.println("Total Inventary cost is" + totalAmount);
-		}
 
-	}
+    boolean search(String acn) {
+        if (accountnum.equals(acn)) {
+            showAccount();
+            return (true);
+        }
+        return (false);
+    }
+}
+
+public class BankAmountWithdraw {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+
+        System.out.print("How Many Customer You Want to Input : ");
+        int n = sc.nextInt();
+        Bank[] C = new Bank[n];
+        for (int i = 0; i < C.length; i++) {
+            C[i] = new Bank();
+            C[i].openAccount();
+        }
+
+
+        int ch;
+        do {
+            System.out.println("Main Menu\n1. Display All\n 2. Search By Account\n 3. Deposit\n 4. Withdrawal\n 5.E xit ");
+            System.out.println("Ur Choice :"); ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    for (Bank bank : C) {
+                        bank.showAccount();
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter Account No. You Want to Search...: ");
+                    String acn = sc.next();
+                    boolean found = false;
+                    for (Bank bank : C) {
+                        found = bank.search(acn);
+                        if (found) {
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Search Failed..Account Not Exist..");
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter Account No : ");
+                   accountnum = sc.next();
+                    found = false;
+                    for (Bank bank : C) {
+                        found = bank.search(accountnum);
+                        if (found) {
+                            bank.deposit();
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Search Failed..Account Not Exist..");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Account No : ");
+                    acn = sc.next();
+                    found = false;
+                    for (Bank bank : C) {
+                        found = bank.search(acn);
+                        if (found) {
+                            bank.withdrawal();
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Search Failed..Account Not Exist..");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Good Bye..");
+                    break;
+            }
+        }
+        while (ch != 5);
+    }
 
 }
