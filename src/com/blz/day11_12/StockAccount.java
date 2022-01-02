@@ -1,41 +1,48 @@
 package com.blz.day11_12;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import java.io.IOException;
-import java.text.ParseException;
+public class StockAccountManagement {
 
-public class StockAccount {
+    public static void main(String[] args) {
+        int flag = 0;
+        Scanner sc = new Scanner(System.in);
+        StockPortfo p = new StockPortfo();
+        while (flag == 0) {
+            System.out.println("Enter the details of Stock ");
+            StockPortfo.Stock s = new StockPortfo.Stock();
+            System.out.println("Enter Company Name:");
+            s.company = sc.nextLine();
+            System.out.println("Enter number of share:");
+            s.NoOfShare = sc.nextInt();
+            System.out.println("Enter Price of share:");
+            s.price = sc.nextDouble();
 
-	public static void main(String[] args) throws IOException, ParseException {
+            p.portf.add(s);
+            System.out.println("Do you want to add more Stocks? enter 0 for YES or 1 for NO!");
+            flag = sc.nextInt();
+        }
+        for (int i = 0; i < p.portf.size(); i++) {
+            System.out.println(p.totalValue());
 
-		JSONParser jsonparser = new JSONParser();
+        }
+    }
+}
 
-		FileReader reader = new FileReader(".\\Data\\stock.json");
+class StockPortfo {
+    ArrayList<Stock> portf = new ArrayList<>();
+    double totalValue = 0;
 
-		Object object = jsonparser.parse(reader);
+    static class Stock {
+        int NoOfShare;
+        String company;
+        double price;
+    }
 
-		JSONObject stockjsonobj = (JSONObject) object;
-
-		JSONArray stock_array = (JSONArray) stockjsonobj.get("StockDetails");
-
-		for (int i = 0; i < stock_array.size(); i++) {
-
-			JSONObject StockDetails = (JSONObject) stock_array.get(i);
-
-			String stock_Name = (String) StockDetails.get("stock_Name");
-			double number_Of_Share = (double) StockDetails.get("number_Of_Share");
-			double share_Price = (double) StockDetails.get("share_Price");
-
-			System.out.println("Stock Details of ....." + i + " is.. ");
-			System.out.println("Stock Name: " + stock_Name);
-			System.out.println("Number Of Share: " + number_Of_Share);
-			System.out.println("Share Price: " + share_Price);
-
-			double totalValue = 0;
-			double amount = number_Of_Share * share_Price;
-			totalValue = amount + totalValue;
-			System.out.println("Total Vlaue is" + totalValue);
-		}
-
-	}
-
+    public double totalValue() {
+        for (Stock stock : portf) {
+            totalValue += stock.price * stock.NoOfShare;
+        }
+        return totalValue;
+    }
 }
