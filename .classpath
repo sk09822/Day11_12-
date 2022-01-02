@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-15">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/hp/.m2/repository/net/minidev/json-smart/2.3/json-smart-2.3.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/hp/.m2/repository/net/minidev/json-smart/2.3/json-smart-2.3-javadoc.jar!/"/>
+			<attribute name="maven.groupId" value="net.minidev"/>
+			<attribute name="maven.artifactId" value="json-smart"/>
+			<attribute name="maven.version" value="2.3"/>
+			<attribute name="maven.scope" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
